@@ -1,0 +1,49 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Heavy-Weight Forum</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+        body {
+             background-color: #caccaa;
+        }
+        table {
+            border-collapse: collapse;
+            max-width: 100%;
+            min-width: 150px;
+             
+        }
+        td, tr {
+            border: 1px solid gray;
+        }
+        td {
+            min-width: 150px;
+        }
+        </style>
+
+    </head>
+
+    <body>
+        <h1>Boards</h1>
+        
+        <table>
+            <tr>
+                <th>Board Name</th>
+                <th>Post Count</th>
+                <th>Last Post Timestamp</th>
+            </tr>
+            <tr th:each="board: ${boards}">
+                <td><a href="/board" th:href="@{http://localhost:4567/board(boardID=${board.getID()})}" th:text="${board.getBoardName()}">Ohjelmointi</a></td>
+                <td th:text="${board.getMessageCount()}">2</td>
+                <td th:text="${board.getTimestamp()}">13213</td>
+            </tr>
+      
+        </table>
+
+    </body>
+</html>
+
+
+<!--<a href="/board?boardID={board.getID()}" th:text="{board.getBoardName()}">-->
