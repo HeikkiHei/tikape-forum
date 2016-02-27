@@ -35,7 +35,7 @@
                 <th>Last Post Timestamp</th>
             </tr>
             <tr th:each="topic: ${topics}">
-                <td><a href="/topic" th:href="@{http://localhost:4567/topic(topicID=${topic.getId()})}" th:text="${topic.getName()}">Ohjelmointi</a></td>
+                <td><a href="/topic" th:href="@{~/topic(topicID=${topic.getId()})}" th:text="${topic.getName()}">Ohjelmointi</a></td>
                 <td th:text="${topic.getPostCount()}">2</td>
                 <td th:text="${topic.getTimestamp()}">13213</td>
             </tr>
