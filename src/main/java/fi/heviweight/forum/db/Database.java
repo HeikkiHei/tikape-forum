@@ -24,11 +24,32 @@ public class Database {
         stmt.close();
         return rows;
     }
-    
+
+    public <T> List<T> queryAndCollect(PreparedStatement stmt, Collector col) throws SQLException {
+        List<T> rows = new ArrayList<>();
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                rows.add((T) col.collect(rs));
+            }
+        }
+        stmt.close();
+        return rows;
+    }
+
     public void execute(String statement) throws SQLException {
         Statement stmt = connection.createStatement();
         int changes = stmt.executeUpdate(statement);
         System.out.println("Kyselyn vaikuttamia rivejä: " + changes);
         stmt.close();
+    }
+
+    public void execute(PreparedStatement stmt) throws SQLException {
+        int changes = stmt.executeUpdate();
+        System.out.println("Kyselyn vaikuttamia rivejä: " + changes);
+        stmt.close();
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }
