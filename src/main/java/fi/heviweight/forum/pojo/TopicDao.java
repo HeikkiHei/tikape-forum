@@ -81,7 +81,7 @@ public class TopicDao {
     private Integer lastTopic() throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT topic.id FROM topic ORDER BY topic.id DESC LIMIT 1");
+                    "SELECT topic.id FROM topic ORDER BY topic.id DESC LIMIT 1;");
             List<Integer> topics = db.queryAndCollect(stmt, rs -> {
                 return new Integer(rs.getInt("id"));
             });
