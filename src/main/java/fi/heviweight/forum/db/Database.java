@@ -14,7 +14,7 @@ public class Database {
         List<String> lauseet = null;
         if (this.databaseAddress.contains("postgres")) {
             lauseet = postgreLauseet();
-        } 
+        }
 
         // "try with resources" sulkee resurssin automaattisesti lopuksi
         try (Connection conn = getConnection()) {
@@ -70,13 +70,21 @@ public class Database {
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
+        lista.add("CREATE TABLE topic(id SERIAL PRIMARY KEY, "
+                + "name VARCHAR(25) NOT NULL, "
+                + "board_id INT REFERENCES board(id);");
 
-        // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-//        lista.add("DROP TABLE Tuote;");
-        // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
-//        lista.add("CREATE TABLE Tuote (id SERIAL PRIMARY KEY, nimi varchar(255));");
-//        lista.add("INSERT INTO Tuote (nimi) VALUES ('postgresql-tuote');");
+        lista.add("CREATE TABLE post(id SERIAL PRIMARY KEY, "
+                + "topic_id INT REFERENCES topic(id), "
+                + "user_id INT REFERENCES user(id), post VARCHAR(5000) NOT NULL, "
+                + "timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP;");
 
+        lista.add("CREATE TABLE user(id SERIAL PRIMARY KEY, "
+                + "name VARCHAR(15) NOT NULL);");
+
+        lista.add("CREATE TABLE board(id SERIAL PRIMARY KEY, "
+                + "name VARCHAR(25) NOT NULL, "
+                + "description VARCHAR(100) NOT NULL);");
         return lista;
     }
 
