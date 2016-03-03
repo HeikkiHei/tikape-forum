@@ -8,19 +8,27 @@ import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
-    
+
     public static void main(String[] args) throws Exception {
-        Database db = new Database("jdbc:sqlite:src/heviwait.db");
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+        String jdbcOsoite = "jdbc:sqlite:src/heviwait.db";
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        }
+        Database db = new Database(jdbcOsoite);
+
         ForumDao fd = new ForumDao(db);
         TopicDao td = new TopicDao(db);
         PostDao pd = new PostDao(db);
-        
+
         get("/forum", (req, res) -> {
             HashMap<String, List<Forum>> map = new HashMap<>();
             map.put("boards", fd.findAll());
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
-        
+
         get("/board", (req, res) -> {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
@@ -30,7 +38,7 @@ public class Main {
             map.put("id", i);
             return new ModelAndView(map, "board");
         }, new ThymeleafTemplateEngine());
-        
+
         post("/board", (req, res) -> {
             int i = 0;
             try {
@@ -45,11 +53,11 @@ public class Main {
             if (i == 0) {
                 res.status(404);
             }
-            
+
             res.redirect("/topic?topicId=" + i, 307);
             return "";
         });
-        
+
         get("/topic", (req, res) -> {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("topicId"));
@@ -61,7 +69,7 @@ public class Main {
             map.put("bId", p.get(0).getBoardId());
             return new ModelAndView(map, "topic");
         }, new ThymeleafTemplateEngine());
-        
+
         post("/topic", (req, res) -> {
             boolean success = true;
             try {
@@ -69,7 +77,7 @@ public class Main {
             } catch (Exception e) {
                 success = false;
             }
-            
+
             if (success && (!req.queryParams("nick").isEmpty() || !req.queryParams("message").isEmpty())) {
                 try {
                     String nick = req.queryParams("nick");
