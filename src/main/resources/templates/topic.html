@@ -1,4 +1,3 @@
-
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -28,6 +27,11 @@
                 color: black;
             }
 
+            p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
             a:link {
                 color: firebrick;
                 text-decoration: none;
@@ -50,13 +54,22 @@
                 color: black;
                 height: 25px;
             }
+
+            .bigbox {
+                width: 500px;
+                height: 200px;
+            }
+            form{
+                margin-left: auto;
+                margin-right: auto;
+            }
         </style>
 
     </head>
 
     <body>
         <h1 th:text="${tName}">Topic name</h1>
-        <p><a href="/forum">Forum</a> - <a href="/board" th:href="@{~/board(boardId=${bId})}" th:text="${bName}">Board name</a></p>
+        <p align="center"><a href="/forum">Forum</a> - <a href="/board" th:href="@{~/board(boardId=${bId})}" th:text="${bName}">Board name</a></p>
         <table>
             <tr>
                 <th style="text-align: left;">Poster</th>
@@ -64,23 +77,27 @@
                 <th style="text-align: left;">Message</th>
             </tr>
             <tr th:each="post: ${posts}">
-                <td style="width:30px; text-align: left;" th:text="${post.getPoster()}">Teppo</td>
-                <td style="width:170px; text-align: center;"></td>
-                <td style="width:750px; text-align: left;" th:text="${post.getContent()}">Oispa php</td>
+                <td style="width:100px; max-width: 100px; text-align: left;" th:text="${post.getPoster()}">posterName</td>
+                <td style="width:100px; max-width: 100px; text-align: center;"></td>
+                <td style="width:750px; max-width: 750px; text-align: left;" th:text="${post.getContent()}">message</td>
             </tr>
 
         </table>
 
         <h1>Reply to topic</h1>
-        <form method="post">
-            <p>Nick:</p>
-            <input class="mytext" type="text" name="nick" />
-            <p>Message:</p>
-            <input class="mytext" type="text" name="message" />
-            <input type="hidden" name="topicId" value="" th:value="${id}" />
-            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-        </form>
+        <table>
+            <tr>
+                <th>
+                    <form method="post">
+                        <p>Nick:</p>
+                        <input type="text" name="nick" />
+                        <p>Message:</p>
+                        <textarea rows="10" cols="50" name="message"/>
+                        <input type="hidden" name="topicId" value="" th:value="${id}" />
+                        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+                    </form>
+                </th>
+            </tr>
+        </table>
     </body>
 </html>
-
-

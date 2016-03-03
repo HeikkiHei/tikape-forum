@@ -1,4 +1,3 @@
-
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -27,6 +26,11 @@
                 color: black;
             }
 
+            p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
             a:link {
                 color: firebrick;
                 text-decoration: none;
@@ -49,6 +53,7 @@
                 color: black;
                 height: 25px;
             }
+
         </style>
 
     </head>
@@ -64,10 +69,10 @@
                 <th style="text-align: right;">Last Post Timestamp</th>
             </tr>
             <tr th:each="board: ${boards}">
-                <td style="width:200px; text-align: left;"><a href="/board" th:href="@{~/board(boardId=${board.getId()})}" th:text="${board.getBoardName()}">BoardName</a></td>
-                <td style="width:50px; text-align: center;" th:text="${board.getMessageCount()}">messageCount</td>
-                <td style="width:500px; text-align: center;"></td>
-                <td style="width:200px; text-align: right;" th:text="${board.getTimestamp()}">timeStamp</td>
+                <td style="width:200px; max-width: 200px; text-align: left;"><a href="/board" th:href="@{~/board(boardId=${board.getId()})}" th:text="${board.getBoardName()}">BoardName</a></td>
+                <td style="width:50px; max-width: 200px; text-align: center;" th:text="${board.getMessageCount()}">messageCount</td>
+                <td style="width:500px; max-width: 500px; text-align: center;"></td>
+                <td style="width:200px; max-width: 200px; text-align: right;" th:text="${board.getTimestamp()}">timeStamp</td>
             </tr>
 
         </table>

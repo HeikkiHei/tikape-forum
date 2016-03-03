@@ -1,4 +1,3 @@
-
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -27,6 +26,7 @@
                 color: black;
             }
 
+            
             a:link {
                 color: firebrick;
                 text-decoration: none;
@@ -55,7 +55,7 @@
 
     <body>
         <h1 th:text="${bName}">Board name</h1>
-        <p><a href="/forum">Forum</a></p>
+        <p align="center"><a href="/forum">Forum</a></p>
         <table>
             <tr>
                 <th style="text-align: left;">Post Name</th>
@@ -64,22 +64,27 @@
                 <th style="text-align: right;">Last Post Timestamp</th>
             </tr>
             <tr th:each="topic: ${topics}">
-                <td style="width:200px; text-align: left;"><a href="/topic" th:href="@{~/topic(topicId=${topic.getId()})}" th:text="${topic.getName()}">Ohjelmointi</a></td>
-                <td style="width:50px; text-align: center;" th:text="${topic.getPostCount()}">2</td>
-                <td style="width:500px; text-align: center;"></td>
-                <td style="width:200px; text-align: right;" th:text="${topic.getTimestamp()}">13213</td>
+                <td style="width:200px; max-width: 200px; text-align: left;"><a href="/topic" th:href="@{~/topic(topicId=${topic.getId()})}" th:text="${topic.getName()}">topicName</a></td>
+                <td style="width:50px; max-width: 50px; text-align: center;" th:text="${topic.getPostCount()}">postCount</td>
+                <td style="width:500px; max-width: 500px; text-align: center;"></td>
+                <td style="width:200px; max-width: 200px; text-align: right;" th:text="${topic.getTimestamp()}">timestamp</td>
             </tr>
 
         </table>
 
+
         <h1>Post new topic</h1>
-        <form method="post">
-            <p>Topic name:</p>
-            <input class="mytext" type="text" name="topicName" />
-            <input type="hidden" name="boardId" value="" th:value="${id}" />
-            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-        </form>
+        <table>
+            <tr>
+                <th>
+                    <form method="post">
+                        <p>Topic name:</p>
+                        <textarea rows="2" cols="50" name="topicName" />
+                        <input type="hidden" name="boardId" value="" th:value="${id}" />
+                        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+                    </form>
+                </th>
+            </tr>
+        </table>
     </body>
 </html>
-
-
