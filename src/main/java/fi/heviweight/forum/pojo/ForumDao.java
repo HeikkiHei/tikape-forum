@@ -18,8 +18,8 @@ public class ForumDao {
                     "SELECT board.id AS boardId, "
                     + "board.name AS boardName, board.description AS boardDesc,"
                     + "topic.id As topicId, topic.name AS topicName, "
-                    + "COUNT(Post.id) AS 'Viesteja Yhteensa', "
-                    + "post.timestamp AS 'Viimeisin Viesti' \n"
+                    + "COUNT(Post.id) AS Viesteja, "
+                    + "post.timestamp AS Viimeisin \n"
                     + "FROM board, Topic, post\n"
                     + "WHERE topic.board_id = board.id\n"
                     + "AND topic.id = post.topic_id\n"
@@ -32,8 +32,8 @@ public class ForumDao {
                         rs.getString("boardName"),
                         rs.getString("boardDesc"),
                         rs.getString("topicName"),
-                        rs.getString("Viimeisin Viesti"),
-                        rs.getInt("Viesteja Yhteensa"));
+                        rs.getString("Viimeisin"),
+                        rs.getInt("Viesteja"));
             });
         }
     }

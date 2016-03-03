@@ -19,8 +19,8 @@ public class TopicDao {
             PreparedStatement stmt = con.prepareStatement(
                     "SELECT board.id AS boardId, "
                     + "board.name AS boardName, topic.id As topicId, "
-                    + "topic.name AS topicName, COUNT(Post.id) AS Viestejä, "
-                    + "post.timestamp AS 'Viimeisin viesti' \n"
+                    + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
+                    + "post.timestamp AS Viimeisin \n"
                     + "FROM board, topic, post \n"
                     + "WHERE board.id = topic.board_id \n"
                     + "AND board.id = ? "
@@ -34,8 +34,8 @@ public class TopicDao {
                         rs.getInt("topicId"),
                         rs.getString("topicName"),
                         rs.getString("boardName"),
-                        rs.getInt("Viestejä"),
-                        rs.getString("Viimeisin viesti"));
+                        rs.getInt("Viesteja"),
+                        rs.getString("Viimeisin"));
             });
         }
     }
@@ -45,8 +45,8 @@ public class TopicDao {
             PreparedStatement stmt = con.prepareStatement(
                     "SELECT board.id AS boardId, "
                     + "board.name AS boardName, topic.id As topicId, "
-                    + "topic.name AS topicName, COUNT(Post.id) AS Viestejä, "
-                    + "post.timestamp AS 'Viimeisin viesti' \n"
+                    + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
+                    + "post.timestamp AS Viimeisin \n"
                     + "FROM board, topic, post \n"
                     + "WHERE board.id = topic.board_id \n"
                     + "AND topic.id = ? "
@@ -61,8 +61,8 @@ public class TopicDao {
                         rs.getInt("topicId"),
                         rs.getString("topicName"),
                         rs.getString("boardName"),
-                        rs.getInt("Viestejä"),
-                        rs.getString("Viimeisin viesti"));
+                        rs.getInt("Viesteja"),
+                        rs.getString("Viimeisin"));
             });
         }
     }
