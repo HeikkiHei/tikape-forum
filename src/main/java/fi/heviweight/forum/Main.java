@@ -1,4 +1,3 @@
-
 package fi.heviweight.forum;
 
 import fi.heviweight.forum.db.Database;
@@ -15,45 +14,82 @@ public class Main {
         ForumDao fd = new ForumDao(db);
         TopicDao td = new TopicDao(db);
         PostDao pd = new PostDao(db);
-        
+
         get("/forum", (req, res) -> {
             HashMap<String, List<Forum>> map = new HashMap<>();
             map.put("boards", fd.findAll());
-            //System.out.println(map.get("boards").get(0).getBoardName());
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
         get("/board", (req, res) -> {
-            HashMap<String, List<Topic>> map = new HashMap<>();
-            int i = Integer.parseInt(req.queryParams("boardID"));
-            map.put("topics", td.getTopics(i));
-            //System.out.println("board ID?" + i);
+            HashMap<String, Object> map = new HashMap<>();
+            int i = Integer.parseInt(req.queryParams("boardId"));
+            List<Topic> b = td.getTopics(i);
+            map.put("topics", b);
+            map.put("bName", b.get(0).getBoard());
+            map.put("id", i);
             return new ModelAndView(map, "board");
         }, new ThymeleafTemplateEngine());
 
         post("/board", (req, res) -> {
-            int i = new TopicDao(db).addTopic(req.queryParams("heading"), Integer.parseInt(req.queryParams("boardID")));
-            String r = "";
-            for (Post p : new PostDao(db).getPosts(i)) {
-                r = r + "<p>" + p.getPoster() + ": " + p.getContent() + "</p>\n";
+            int i = 0;
+            try {
+                int bId = Integer.parseInt(req.queryParams("boardId"));
+                i = td.addTopic(req.queryParams("topicName"), bId);
+            } catch (Exception e) {
             }
-            return r;
+            if (i == 0) {
+                res.status(404);
+            }
+
+            res.redirect("/topic?topicId=" + i, 307);
+            return "";
         });
 
         get("/topic", (req, res) -> {
-            HashMap<String, List<Post>> map = new HashMap<>();
-            int i = Integer.parseInt(req.queryParams("topicID"));
-            map.put("posts", pd.getPosts(i));
+            HashMap<String, Object> map = new HashMap<>();
+            int i = Integer.parseInt(req.queryParams("topicId"));
+            List<Post> p = pd.getPosts(i);
+            map.put("posts", p);
+            map.put("id", p.get(0).getTopicId());
+            map.put("tName", p.get(0).getTopic());
+            map.put("bName", p.get(0).getBoard());
+            map.put("bId", p.get(0).getBoardId());
             return new ModelAndView(map, "topic");
         }, new ThymeleafTemplateEngine());
 
         post("/topic", (req, res) -> {
-            String r = "";
-            new PostDao(db).addPost(req.queryParams("nick"), req.queryParams("message"), Integer.parseInt(req.queryParams("topicId")));
-            for (Post p : new PostDao(db).getPosts(Integer.parseInt(req.queryParams("topicID")))) {
-                r = r + "<p>" + p.getPoster() + ": " + p.getContent() + "</p>\n";
+            boolean success = true;
+            try {
+                req.queryParams("nick").isEmpty();
+            } catch (Exception e) {
+                success = false;
             }
-            return r;
-        });
+
+            if (success && (!req.queryParams("nick").isEmpty() || !req.queryParams("message").isEmpty())) {
+                try {
+                    new PostDao(db).addPost(req.queryParams("nick"), req.queryParams("message"), Integer.parseInt(req.queryParams("topicId")));
+                } catch (Exception e) {
+                }
+            }
+            HashMap<String, Object> map = new HashMap<>();
+            if (!success) {
+                List<Post> p = pd.getPosts(Integer.parseInt(req.queryParams("topicId")));
+                map.put("posts", p);
+                map.put("id", Integer.parseInt(req.queryParams("topicId")));
+                map.put("tName", "Make an opening post");
+                map.put("bName", p.get(0).getBoard());
+                map.put("bId", p.get(0).getBoardId());
+            } else {
+                int i = Integer.parseInt(req.queryParams("topicId"));
+                map.put("posts", pd.getPosts(i));
+                List<Post> p = pd.getPosts(i);
+                map.put("id", p.get(0).getTopicId());
+                map.put("tName", p.get(0).getTopic());
+                map.put("bName", p.get(0).getBoard());
+                map.put("bId", p.get(0).getBoardId());
+            }
+            return new ModelAndView(map, "topic");
+        }, new ThymeleafTemplateEngine());
     }
 }

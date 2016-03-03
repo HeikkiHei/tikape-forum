@@ -6,50 +6,79 @@
         <title>Heavy-Weight Forum</title>
         <meta charset="utf-8" />
         <style type="text/css">
-        body {
-             background-color: #caccaa;
-        }
-        table {
-            border-collapse: collapse;
-            max-width: 100%;
-            min-width: 150px;
-             
-        }
-        td, tr {
-            border: 1px solid gray;
-        }
-        td {
-            min-width: 150px;
-        }
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #caccaa;
+                font-size: 110%;
+                margin-left: 4em;
+                margin-right: 20%;
+            }
+
+            table {
+                word-wrap:break-word;
+                table-layout: fixed;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            h1, th {
+
+                text-align: center;
+                color: black;
+            }
+
+            a:link {
+                color: firebrick;
+                text-decoration: none;
+
+
+            }
+            a:visited {
+                color: red;
+                text-decoration: none;
+            }
+
+            a:hover{
+                color: darkgrey;
+                text-decoration: underline;
+
+            }
+
+            td {
+                border-bottom: 2px solid #aacacc;
+                color: black;
+                height: 25px;
+            }
         </style>
 
     </head>
 
     <body>
-        <h1>tähän nimi-import??!?</h1>
-        
+        <h1 th:text="${bName}">Board name</h1>
+        <p><a href="/forum">Forum</a></p>
         <table>
             <tr>
-                <th>Post Name</th>
-                <th>Post Count</th>
-                <th>Last Post Timestamp</th>
+                <th style="text-align: left;">Post Name</th>
+                <th style="text-align: center;">Post Count</th>
+                <th></th>
+                <th style="text-align: right;">Last Post Timestamp</th>
             </tr>
             <tr th:each="topic: ${topics}">
-                <td><a href="/topic" th:href="@{~/topic(topicID=${topic.getId()})}" th:text="${topic.getName()}">Ohjelmointi</a></td>
-                <td th:text="${topic.getPostCount()}">2</td>
-                <td th:text="${topic.getTimestamp()}">13213</td>
+                <td style="width:200px; text-align: left;"><a href="/topic" th:href="@{~/topic(topicId=${topic.getId()})}" th:text="${topic.getName()}">Ohjelmointi</a></td>
+                <td style="width:50px; text-align: center;" th:text="${topic.getPostCount()}">2</td>
+                <td style="width:500px; text-align: center;"></td>
+                <td style="width:200px; text-align: right;" th:text="${topic.getTimestamp()}">13213</td>
             </tr>
-      
+
         </table>
-    
+
         <h1>Post new topic</h1>
         <form method="post">
-            <p>Topic: <input type="text" name="topicName" /></p>
-        <!--    <p>Message: <input type="text" th:field="*{message}" /></p>  -->
+            <p>Topic name:</p>
+            <input class="mytext" type="text" name="topicName" />
+            <input type="hidden" name="boardId" value="" th:value="${id}" />
             <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
         </form>
-
-
     </body>
 </html>
 

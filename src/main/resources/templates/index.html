@@ -6,44 +6,71 @@
         <title>Heavy-Weight Forum</title>
         <meta charset="utf-8" />
         <style type="text/css">
-        body {
-             background-color: #caccaa;
-        }
-        table {
-            border-collapse: collapse;
-            max-width: 100%;
-            min-width: 150px;
-             
-        }
-        td, tr {
-            border: 1px solid gray;
-        }
-        td {
-            min-width: 150px;
-        }
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #caccaa;
+                font-size: 110%;
+                margin-left: 4em;
+                margin-right: 20%;
+            }
+
+            table {
+                word-wrap:break-word;
+                table-layout: fixed;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            h1, th {
+
+                text-align: center;
+                color: black;
+            }
+
+            a:link {
+                color: firebrick;
+                text-decoration: none;
+
+
+            }
+            a:visited {
+                color: red;
+                text-decoration: none;
+            }
+
+            a:hover{
+                color: darkgrey;
+                text-decoration: underline;
+
+            }
+
+            td {
+                border-bottom: 2px solid #aacacc;
+                color: black;
+                height: 25px;
+            }
         </style>
 
     </head>
 
     <body>
         <h1>Boards</h1>
-        
+
         <table>
             <tr>
-                <th>Board Name</th>
-                <th>Post Count</th>
-                <th>Last Post Timestamp</th>
+                <th style="text-align: left;">Board Name</th>
+                <th style="text-align: center;">Post Count</th>
+                <th></th>
+                <th style="text-align: right;">Last Post Timestamp</th>
             </tr>
             <tr th:each="board: ${boards}">
-                <td><a href="/board" th:href="@{~/board(boardID=${board.getID()})}" th:text="${board.getBoardName()}">Ohjelmointi</a></td>
-                <td th:text="${board.getMessageCount()}">2</td>
-                <td th:text="${board.getTimestamp()}">13213</td>
+                <td style="width:200px; text-align: left;"><a href="/board" th:href="@{~/board(boardId=${board.getId()})}" th:text="${board.getBoardName()}">BoardName</a></td>
+                <td style="width:50px; text-align: center;" th:text="${board.getMessageCount()}">messageCount</td>
+                <td style="width:500px; text-align: center;"></td>
+                <td style="width:200px; text-align: right;" th:text="${board.getTimestamp()}">timeStamp</td>
             </tr>
-      
+
         </table>
 
     </body>
 </html>
-
-
-<!--<a href="/board?boardID={board.getID()}" th:text="{board.getBoardName()}">-->

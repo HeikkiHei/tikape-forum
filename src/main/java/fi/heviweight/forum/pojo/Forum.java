@@ -19,7 +19,7 @@ public class Forum {
         this.messageCount = messageCount;
     }
 
-    public int getID() {
+    public int getId() {
         return boardId;
     }
 
