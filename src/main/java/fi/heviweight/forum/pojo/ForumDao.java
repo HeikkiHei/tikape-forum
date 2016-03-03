@@ -16,7 +16,7 @@ public class ForumDao {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
                     "SELECT board.id AS boardId, "
-                    + "board.name AS boardName, board.description AS boardDesc,"
+                    + "board.name AS boardName, board.description AS boardDesc, "
                     + "topic.id As topicId, topic.name AS topicName, "
                     + "COUNT(Post.id) AS Viesteja, "
                     + "post.timestamp AS Viimeisin "
