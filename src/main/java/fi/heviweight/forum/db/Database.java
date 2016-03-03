@@ -70,6 +70,14 @@ public class Database {
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
+        
+        lista.add("CREATE TABLE user(id SERIAL PRIMARY KEY, "
+                + "name VARCHAR(15) NOT NULL);");
+
+        lista.add("CREATE TABLE board(id SERIAL PRIMARY KEY, "
+                + "name VARCHAR(25) NOT NULL, "
+                + "description VARCHAR(100) NOT NULL);");
+        
         lista.add("CREATE TABLE topic(id SERIAL PRIMARY KEY, "
                 + "name VARCHAR(25) NOT NULL, "
                 + "board_id INT REFERENCES board(id));");
@@ -79,12 +87,6 @@ public class Database {
                 + "user_id INT REFERENCES user(id), post VARCHAR(5000) NOT NULL, "
                 + "timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
 
-        lista.add("CREATE TABLE user(id SERIAL PRIMARY KEY, "
-                + "name VARCHAR(15) NOT NULL);");
-
-        lista.add("CREATE TABLE board(id SERIAL PRIMARY KEY, "
-                + "name VARCHAR(25) NOT NULL, "
-                + "description VARCHAR(100) NOT NULL);");
         return lista;
     }
 
