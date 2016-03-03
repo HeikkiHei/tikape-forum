@@ -15,7 +15,7 @@ public class Topic {
         this.topicName = name;
         this.boardName = Board;
         this.postCount = postCount;
-        this.timestamp = timestamp;
+        this.timestamp = timestamp.split("\\.")[0];
     }
 
     public int getId() {

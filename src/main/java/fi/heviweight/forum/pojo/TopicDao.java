@@ -17,16 +17,16 @@ public class TopicDao {
     public List<Topic> getTopics(int boardId) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT Board.id AS boardId, "
-                    + "Board.name AS boardName, Topic.id As topicId, "
-                    + "Topic.name AS topicName, COUNT(Post.id) AS Viestejä, "
-                    + "Post.timestamp AS 'Viimeisin viesti' \n"
-                    + "FROM Board, Topic, Post \n"
-                    + "WHERE Board.id = Topic.board_id \n"
-                    + "AND Board.id = ? "
-                    + "AND Post.topic_id = Topic.id \n"
-                    + "GROUP BY Topic.name \n"
-                    + "ORDER BY Post.timestamp DESC LIMIT 10;");
+                    "SELECT board.id AS boardId, "
+                    + "board.name AS boardName, topic.id As topicId, "
+                    + "topic.name AS topicName, COUNT(Post.id) AS Viestejä, "
+                    + "post.timestamp AS 'Viimeisin viesti' \n"
+                    + "FROM board, topic, post \n"
+                    + "WHERE board.id = topic.board_id \n"
+                    + "AND board.id = ? "
+                    + "AND post.topic_id = topic.id \n"
+                    + "GROUP BY topic.name \n"
+                    + "ORDER BY post.timestamp DESC LIMIT 10;");
             stmt.setInt(1, boardId);
             return db.queryAndCollect(stmt, rs -> {
                 return new Topic(
@@ -43,16 +43,16 @@ public class TopicDao {
     public List<Topic> getTopic(int topicId) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT Board.id AS boardId, "
-                    + "Board.name AS boardName, Topic.id As topicId, "
-                    + "Topic.name AS topicName, COUNT(Post.id) AS Viestejä, "
-                    + "Post.timestamp AS 'Viimeisin viesti' \n"
-                    + "FROM Board, Topic, Post \n"
-                    + "WHERE Board.id = Topic.board_id \n"
-                    + "AND Topic.id = ? "
-                    + "AND Post.topic_id = ? \n"
-                    + "GROUP BY Topic.name \n"
-                    + "ORDER BY Post.timestamp DESC LIMIT 10;");
+                    "SELECT board.id AS boardId, "
+                    + "board.name AS boardName, topic.id As topicId, "
+                    + "topic.name AS topicName, COUNT(Post.id) AS Viestejä, "
+                    + "post.timestamp AS 'Viimeisin viesti' \n"
+                    + "FROM board, topic, post \n"
+                    + "WHERE board.id = topic.board_id \n"
+                    + "AND topic.id = ? "
+                    + "AND post.topic_id = ? \n"
+                    + "GROUP BY topic.name \n"
+                    + "ORDER BY post.timestamp DESC LIMIT 10;");
             stmt.setInt(1, topicId);
             stmt.setInt(2, topicId);
             return db.queryAndCollect(stmt, rs -> {
@@ -70,7 +70,7 @@ public class TopicDao {
     public int addTopic(String message, int boardId) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "INSERT INTO Topic (board_id, name) VALUES (?, ?);");
+                    "INSERT INTO topic (board_id, name) VALUES (?, ?);");
             stmt.setInt(1, boardId);
             stmt.setString(2, message);
             db.execute(stmt);
@@ -81,7 +81,7 @@ public class TopicDao {
     private Integer lastTopic() throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT topic.id FROM Topic ORDER BY topic.id DESC LIMIT 1");
+                    "SELECT topic.id FROM topic ORDER BY topic.id DESC LIMIT 1");
             List<Integer> topics = db.queryAndCollect(stmt, rs -> {
                 return new Integer(rs.getInt("id"));
             });

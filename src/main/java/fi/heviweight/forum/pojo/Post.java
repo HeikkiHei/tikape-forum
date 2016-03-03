@@ -17,7 +17,7 @@ public class Post {
         this.content = content;
         this.topic = topic;
         this.board = board;
-        this.timestamp = timestamp;
+        this.timestamp = timestamp.split("\\.")[0];
     }
 
     public int getBoardId() {

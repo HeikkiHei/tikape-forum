@@ -1,6 +1,7 @@
 package fi.heviweight.forum.pojo;
 
 public class Forum {
+
     private final int boardId;
     private final int topicId;
     private final String boardName;
@@ -15,7 +16,7 @@ public class Forum {
         this.boardName = boardName;
         this.description = description;
         this.lastThread = lastThread;
-        this.timestamp = timestamp;
+        this.timestamp = timestamp.split("\\.")[0];
         this.messageCount = messageCount;
     }
 

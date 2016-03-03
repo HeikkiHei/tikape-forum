@@ -17,15 +17,15 @@ public class PostDao {
     public List<Post> getPosts(int topicID) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT Board.id AS boardId, "
-                    + "Board.name AS boardName, Topic.id As topicId, "
-                    + "Topic.name AS topicName, Post.post AS post, "
-                    + "Post.timestamp AS timestamp, User.name AS Nimi "
-                    + "FROM Topic, Board, Post, User \n"
-                    + "WHERE Topic.id = ? "
-                    + "AND Board.id = Topic.board_id \n"
-                    + "AND User.id = Post.user_id\n"
-                    + "AND Post.topic_id = Topic.id ORDER BY timestamp;");
+                    "SELECT board.id AS boardId, "
+                    + "board.name AS boardName, topic.id As topicId, "
+                    + "topic.name AS topicName, post.post AS post, "
+                    + "post.timestamp AS timestamp, user.name AS Nimi "
+                    + "FROM topic, board, post, user \n"
+                    + "WHERE topic.id = ? "
+                    + "AND board.id = topic.board_id \n"
+                    + "AND user.id = post.user_id\n"
+                    + "AND post.topic_id = topic.id ORDER BY timestamp;");
             stmt.setInt(1, topicID);
             return db.queryAndCollect(stmt, rs -> {
                 return new Post(
@@ -43,7 +43,7 @@ public class PostDao {
     public void addPost(String nick, String message, int topicId) throws SQLException {
         User u = new UserDao(db).getUser(nick);
         PreparedStatement stmt = db.getConnection().prepareStatement(
-                "INSERT INTO Post (topic_id, user_id, post) "
+                "INSERT INTO post (topic_id, user_id, post) "
                 + "VALUES (?, ?, ?);");
         stmt.setInt(1, topicId);
         stmt.setInt(2, u.getId());

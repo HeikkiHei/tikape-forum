@@ -15,16 +15,16 @@ public class ForumDao {
     public List<Forum> findAll() throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT Board.id AS boardId, "
-                    + "Board.name AS boardName, Board.description AS boardDesc,"
-                    + "Topic.id As topicId, Topic.name AS topicName, "
-                    + "COUNT(Post.id) AS 'Viestejä Yhteensä', "
-                    + "Post.timestamp AS 'Viimeisin Viesti' \n"
-                    + "FROM Board, Topic, Post\n"
-                    + "WHERE Topic.board_id = Board.id\n"
-                    + "AND Topic.id = Post.topic_id\n"
-                    + "GROUP BY Board.name\n"
-                    + "ORDER BY Post.timestamp DESC;");
+                    "SELECT board.id AS boardId, "
+                    + "board.name AS boardName, board.description AS boardDesc,"
+                    + "topic.id As topicId, topic.name AS topicName, "
+                    + "COUNT(Post.id) AS 'Viesteja Yhteensa', "
+                    + "post.timestamp AS 'Viimeisin Viesti' \n"
+                    + "FROM board, Topic, post\n"
+                    + "WHERE topic.board_id = board.id\n"
+                    + "AND topic.id = post.topic_id\n"
+                    + "GROUP BY board.name\n"
+                    + "ORDER BY post.timestamp DESC;");
             return db.queryAndCollect(stmt, rs -> {
                 return new Forum(
                         rs.getInt("boardId"),
@@ -33,7 +33,7 @@ public class ForumDao {
                         rs.getString("boardDesc"),
                         rs.getString("topicName"),
                         rs.getString("Viimeisin Viesti"),
-                        rs.getInt("Viestejä Yhteensä"));
+                        rs.getInt("Viesteja Yhteensa"));
             });
         }
     }
