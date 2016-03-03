@@ -18,7 +18,7 @@ public class UserDao {
         try (Connection con = db.getConnection()) {
 
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT * FROM user WHERE user.name == ?;");
+                    "SELECT * FROM user WHERE kayttaja.name == ?;");
             stmt.setString(1, name);
             List<User> u = db.queryAndCollect(stmt, rs -> {
                 return new User(
@@ -27,7 +27,7 @@ public class UserDao {
             });
             if (u.isEmpty()) {
                 PreparedStatement insert = con.prepareStatement(
-                        "INSERT INTO user(name) Values(?);");
+                        "INSERT INTO kayttaja(name) Values(?);");
                 insert.setString(1, name);
                 db.execute(insert);
                 return getUser(name);
