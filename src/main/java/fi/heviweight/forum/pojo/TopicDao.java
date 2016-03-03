@@ -20,12 +20,12 @@ public class TopicDao {
                     "SELECT board.id AS boardId, "
                     + "board.name AS boardName, topic.id As topicId, "
                     + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
-                    + "post.timestamp AS Viimeisin \n"
-                    + "FROM board, topic, post \n"
-                    + "WHERE board.id = topic.board_id \n"
+                    + "post.timestamp AS Viimeisin "
+                    + "FROM board, topic, post "
+                    + "WHERE board.id = topic.board_id "
                     + "AND board.id = ? "
-                    + "AND post.topic_id = topic.id \n"
-                    + "GROUP BY topic.name \n"
+                    + "AND post.topic_id = topic.id "
+                    + "GROUP BY topic.name "
                     + "ORDER BY post.timestamp DESC LIMIT 10;");
             stmt.setInt(1, boardId);
             return db.queryAndCollect(stmt, rs -> {
@@ -46,12 +46,12 @@ public class TopicDao {
                     "SELECT board.id AS boardId, "
                     + "board.name AS boardName, topic.id As topicId, "
                     + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
-                    + "post.timestamp AS Viimeisin \n"
-                    + "FROM board, topic, post \n"
-                    + "WHERE board.id = topic.board_id \n"
+                    + "post.timestamp AS Viimeisin "
+                    + "FROM board, topic, post "
+                    + "WHERE board.id = topic.board_id "
                     + "AND topic.id = ? "
-                    + "AND post.topic_id = ? \n"
-                    + "GROUP BY topic.name \n"
+                    + "AND post.topic_id = ? "
+                    + "GROUP BY topic.name "
                     + "ORDER BY post.timestamp DESC LIMIT 10;");
             stmt.setInt(1, topicId);
             stmt.setInt(2, topicId);

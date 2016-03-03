@@ -21,10 +21,10 @@ public class PostDao {
                     + "board.name AS boardName, topic.id As topicId, "
                     + "topic.name AS topicName, post.post AS post, "
                     + "post.timestamp AS timestamp, kayttaja.name AS Nimi "
-                    + "FROM topic, board, post, kayttaja \n"
+                    + "FROM topic, board, post, kayttaja "
                     + "WHERE topic.id = ? "
-                    + "AND board.id = topic.board_id \n"
-                    + "AND kayttaja.id = post.user_id\n"
+                    + "AND board.id = topic.board_id "
+                    + "AND kayttaja.id = post.user_id "
                     + "AND post.topic_id = topic.id ORDER BY timestamp;");
             stmt.setInt(1, topicID);
             return db.queryAndCollect(stmt, rs -> {

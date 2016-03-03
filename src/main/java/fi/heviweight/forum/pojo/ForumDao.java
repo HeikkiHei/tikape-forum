@@ -19,11 +19,11 @@ public class ForumDao {
                     + "board.name AS boardName, board.description AS boardDesc,"
                     + "topic.id As topicId, topic.name AS topicName, "
                     + "COUNT(Post.id) AS Viesteja, "
-                    + "post.timestamp AS Viimeisin \n"
-                    + "FROM board, Topic, post\n"
-                    + "WHERE topic.board_id = board.id\n"
-                    + "AND topic.id = post.topic_id\n"
-                    + "GROUP BY board.name\n"
+                    + "post.timestamp AS Viimeisin "
+                    + "FROM board, Topic, post "
+                    + "WHERE topic.board_id = board.id "
+                    + "AND topic.id = post.topic_id "
+                    + "GROUP BY board.id "
                     + "ORDER BY post.timestamp DESC;");
             return db.queryAndCollect(stmt, rs -> {
                 return new Forum(
