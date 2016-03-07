@@ -20,13 +20,13 @@ public class TopicDao {
                     "SELECT board.id AS boardId, "
                     + "board.name AS boardName, topic.id As topicId, "
                     + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
-                    + "post.timestamp AS Viimeisin "
+                    + "max(post.timestamp) AS Viimeisin "
                     + "FROM board, topic, post "
                     + "WHERE board.id = topic.board_id "
                     + "AND board.id = ? "
                     + "AND post.topic_id = topic.id "
                     + "GROUP BY topic.name "
-                    + "ORDER BY post.timestamp DESC LIMIT 10;");
+                    + "ORDER BY Viimeisin DESC LIMIT 10;");
             stmt.setInt(1, boardId);
             return db.queryAndCollect(stmt, rs -> {
                 return new Topic(
