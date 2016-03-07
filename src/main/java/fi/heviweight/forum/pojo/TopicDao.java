@@ -29,7 +29,7 @@ public class TopicDao {
                     + "MAX(timestamp) AS Ts FROM post "
                     + "WHERE post.topic_id = ? "
                     + "GROUP BY post.topic_id) pos "
-                    + "ON b.tId = t.tId;");
+                    + "ON pos.tId = top.tId;");
             stmt.setInt(1, boardId);
             stmt.setInt(2, boardId);
             return db.queryAndCollect(stmt, rs -> {
