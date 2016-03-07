@@ -28,7 +28,7 @@ public class ForumDao {
             return db.queryAndCollect(stmt, rs -> {
                 String s = "-";
                 try {
-                    s = rs.getString("Viimeisin");
+                    s = rs.getString("Viimeisin").split("\\.")[0];
                 } catch (Exception e) {}
                 int v = 0;
                 try {

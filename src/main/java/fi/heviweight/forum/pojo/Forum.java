@@ -12,7 +12,7 @@ public class Forum {
         this.boardId = boardId;
         this.boardName = boardName;
         this.description = description;
-        this.timestamp = timestamp.split("\\.")[0];
+        this.timestamp = timestamp;
         this.messageCount = messageCount;
     }
 
