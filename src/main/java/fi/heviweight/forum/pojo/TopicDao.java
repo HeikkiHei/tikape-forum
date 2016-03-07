@@ -47,7 +47,7 @@ public class TopicDao {
                     + "t.Ts AS Viimeisin, t.c AS Viesteja, " 
                     + "b.Id AS boardId, b.bN AS boardName FROM (" 
                     + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
-                    + "MAX(timestamp) AS Ts FROM post WHERE post.topic_id = 1 "
+                    + "MAX(timestamp) AS Ts FROM post WHERE post.topic_id = ? "
                     + "GROUP BY post.topic_id) t RIGHT JOIN (" 
                     + "SELECT board.id AS Id, board.name AS bN, "
                     + "topic.id AS tId, topic.name AS N " 
