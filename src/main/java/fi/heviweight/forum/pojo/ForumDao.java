@@ -18,13 +18,13 @@ public class ForumDao {
                     "SELECT b.id AS boardId, b.name AS boardName, "
                     + "b.description AS boardDesc, t.Viesteja AS Viesteja, "
                     + "t.Viimeisin AS Viimeisin "
-                    + "FROM (SELECT board.id AS boardId, " 
+                    + "FROM board b LEFT JOIN (SELECT board.id AS boardId, " 
                     + "COUNT(Post.id) AS Viesteja, " 
                     + "MAX(post.TIMESTAMP) AS Viimeisin " 
                     + "FROM board, Topic, post "
                     + "WHERE topic.board_id = board.id " 
                     + "AND topic.id = post.topic_id " 
-                    + "GROUP BY board.id) t RIGHT JOIN board b ON t.boardId = b.id;");
+                    + "GROUP BY board.id) t ON t.boardId = b.id;");
             return db.queryAndCollect(stmt, rs -> {
                 String s = "-";
                 try {

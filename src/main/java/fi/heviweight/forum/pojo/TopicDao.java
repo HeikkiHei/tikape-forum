@@ -46,13 +46,13 @@ public class TopicDao {
                     "SELECT b.tId AS topicId, b.N AS topicName, "
                             + "t.Ts AS Viimeisin, t.c AS Viesteja, "
                             + "b.Id AS boardId, b.bN AS boardName FROM ("
+                            + "SELECT board.id AS Id, board.name AS bN, "
+                            + "topic.id AS tId, topic.name AS N FROM topic, "
+                            + "board WHERE topic.board_id = board.id) t LEFT JOIN ("
                             + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
                             + "MAX(timestamp) AS Ts FROM post "
                             + "WHERE post.topic_id = ? "
-                            + "GROUP BY post.topic_id) t RIGHT JOIN ("
-                            + "SELECT board.id AS Id, board.name AS bN, "
-                            + "topic.id AS tId, topic.name AS N FROM topic, "
-                            + "board WHERE topic.board_id = board.id) b "
+                            + "GROUP BY post.topic_id) b "
                             + "ON b.tId = t.tId;");
             stmt.setInt(1, topicId);
             return db.queryAndCollect(stmt, rs -> {
