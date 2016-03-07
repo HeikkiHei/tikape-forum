@@ -71,7 +71,7 @@
             <tr th:each="board: ${boards}">
                 <td style="width:200px; max-width: 200px; text-align: left;"><a href="/board" th:href="@{~/board(boardId=${board.getId()})}" th:text="${board.getBoardName()}">BoardName</a></td>
                 <td style="width:50px; max-width: 200px; text-align: center;" th:text="${board.getMessageCount()}">messageCount</td>
-                <td style="width:500px; max-width: 500px; text-align: center;"></td>
+                <td style="width:500px; max-width: 500px; text-align: left;" th:text="${board.getDescription()}"></td>
                 <td style="width:200px; max-width: 200px; text-align: right;" th:text="${board.getTimestamp()}">timeStamp</td>
             </tr>
 
