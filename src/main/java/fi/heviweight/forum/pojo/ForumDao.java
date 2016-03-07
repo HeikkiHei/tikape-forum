@@ -25,12 +25,19 @@ public class ForumDao {
                     + "AND topic.id = post.topic_id " 
                     + "GROUP BY board.id) t RIGHT JOIN board b ON t.boardId = b.id;");
             return db.queryAndCollect(stmt, rs -> {
+                String s = "-";
+                try {
+                    s = rs.getString("Viimeisin");
+                } catch (Exception e) {}
+                int v = 0;
+                try {
+                    v = rs.getInt("Viesteja");
+                } catch (Exception e) {}
                 return new Forum(
                         rs.getInt("boardId"),
                         rs.getString("boardName"),
                         rs.getString("boardDesc"),
-                        rs.getString("Viimeisin"),
-                        rs.getInt("Viesteja"));
+                        s, v);
             });
         }
     }
