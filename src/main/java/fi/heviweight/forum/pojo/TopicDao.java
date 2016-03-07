@@ -44,15 +44,16 @@ public class TopicDao {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
                     "SELECT b.tId AS topicId, b.N AS topicName, "
-                    + "t.Ts AS Viimeisin, t.c AS Viesteja, " 
-                    + "b.Id AS boardId, b.bN AS boardName FROM (" 
-                    + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
-                    + "MAX(timestamp) AS Ts FROM post WHERE post.topic_id = ? "
-                    + "GROUP BY post.topic_id) t RIGHT JOIN (" 
-                    + "SELECT board.id AS Id, board.name AS bN, "
-                    + "topic.id AS tId, topic.name AS N " 
-                    + "FROM topic, board WHERE topic.board_id = board.id) b ON "
-                    + "b.tId = t.tId;");
+                            + "t.Ts AS Viimeisin, t.c AS Viesteja, "
+                            + "b.Id AS boardId, b.bN AS boardName FROM ("
+                            + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
+                            + "MAX(timestamp) AS Ts FROM post "
+                            + "WHERE post.topic_id = 1 "
+                            + "GROUP BY post.topic_id) t RIGHT JOIN ("
+                            + "SELECT board.id AS Id, board.name AS bN, "
+                            + "topic.id AS tId, topic.name AS N FROM topic, "
+                            + "board WHERE topic.board_id = board.id) b "
+                            + "ON b.tId = t.tId;");
             stmt.setInt(1, topicId);
             stmt.setInt(2, topicId);
             return db.queryAndCollect(stmt, rs -> {
