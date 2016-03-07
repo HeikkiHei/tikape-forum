@@ -17,16 +17,19 @@ public class TopicDao {
     public List<Topic> getTopics(int boardId) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT board.id AS boardId, "
-                    + "board.name AS boardName, topic.id As topicId, "
-                    + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
-                    + "max(post.timestamp) AS Viimeisin "
-                    + "FROM board, topic, post "
-                    + "WHERE board.id = topic.board_id "
-                    + "AND board.id = ? "
-                    + "AND post.topic_id = topic.id "
-                    + "GROUP BY topic.name "
-                    + "ORDER BY Viimeisin DESC LIMIT 10;");
+                    "SELECT b.tId AS topicId, b.N AS topicName, "
+                            + "t.Ts AS Viimeisin, t.c AS Viesteja, "
+                            + "b.Id AS boardId, b.bN AS boardName FROM ("
+                            + "SELECT board.id AS Id, board.name AS bN, "
+                            + "topic.id AS tId, topic.name AS N "
+                            + "FROM topic, board "
+                            + "WHERE topic.board_id = board.id"
+                            + "AND topic.id = ?) t LEFT JOIN ("
+                            + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
+                            + "MAX(timestamp) AS Ts FROM post "
+                            + "WHERE post.topic_id = ? "
+                            + "GROUP BY post.topic_id) b "
+                            + "ON b.tId = t.tId;");
             stmt.setInt(1, boardId);
             return db.queryAndCollect(stmt, rs -> {
                 return new Topic(
@@ -43,19 +46,16 @@ public class TopicDao {
     public List<Topic> getTopic(int topicId) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT b.tId AS topicId, b.N AS topicName, "
-                            + "t.Ts AS Viimeisin, t.c AS Viesteja, "
-                            + "b.Id AS boardId, b.bN AS boardName FROM ("
-                            + "SELECT board.id AS Id, board.name AS bN, "
-                            + "topic.id AS tId, topic.name AS N "
-                            + "FROM topic, board "
-                            + "WHERE topic.board_id = board.id"
-                            + "AND topic.id = ?) t LEFT JOIN ("
-                            + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
-                            + "MAX(timestamp) AS Ts FROM post "
-                            + "WHERE post.topic_id = ? "
-                            + "GROUP BY post.topic_id) b "
-                            + "ON b.tId = t.tId;");
+                    "SELECT board.id AS boardId, "
+                    + "board.name AS boardName, topic.id As topicId, "
+                    + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
+                    + "post.timestamp AS Viimeisin "
+                    + "FROM board, topic, post "
+                    + "WHERE board.id = topic.board_id "
+                    + "AND topic.id = ? "
+                    + "AND post.topic_id = ? "
+                    + "GROUP BY topic.name "
+                    + "ORDER BY post.timestamp DESC LIMIT 10;");
             stmt.setInt(1, topicId);
             stmt.setInt(2, topicId);
             return db.queryAndCollect(stmt, rs -> {
