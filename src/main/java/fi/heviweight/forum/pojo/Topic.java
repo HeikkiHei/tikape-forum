@@ -41,4 +41,9 @@ public class Topic {
     public int getPostCount() {
         return postCount;
     }
+
+    @Override
+    public String toString() {
+        return "Topic{" + "boardId=" + boardId + ", topicId=" + topicId + ", topicName=" + topicName + ", boardName=" + boardName + ", postCount=" + postCount + ", timestamp=" + timestamp + '}';
+    }
 }
