@@ -82,6 +82,7 @@ public class Main {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("topicId"));
             List<Post> p = pd.getPosts(i);
+            System.out.println("Post count before pruning: " + p.size());
             int page = lastpage(p.size());
             try {
                 page = Integer.parseInt(req.queryParams("page"));
@@ -89,6 +90,7 @@ public class Main {
             page = validPage(page, p.size());
             map.put("pages", getPages(p.size()));
             p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
+            System.out.println("Post count after pruning" + p.size());
             map.put("posts", p);
             if (p.isEmpty()) {
                 map.put("id", i);
