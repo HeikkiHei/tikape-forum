@@ -15,8 +15,7 @@ public class Topic {
         this.topicName = name;
         this.boardName = Board;
         this.postCount = postCount;
-        if (timestamp.equals("-")) this.timestamp = "-";
-        else this.timestamp = timestamp.split("\\.")[0];
+        this.timestamp = timestamp.split("\\.")[0];
     }
 
     public int getId() {

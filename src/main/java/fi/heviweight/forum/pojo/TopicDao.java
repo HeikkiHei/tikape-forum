@@ -43,6 +43,9 @@ public class TopicDao {
                 try {
                     s = rs.getString("Viimeisin");
                 } catch (Exception e) {}
+                if (s == null) {
+                    s = "-";
+                }
                 return new Topic(
                         rs.getInt("boardId"),
                         rs.getInt("topicId"),
