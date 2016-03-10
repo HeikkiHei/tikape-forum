@@ -94,6 +94,7 @@ public class Main {
                     new PostDao(db).addPost(nick, message, Integer.parseInt(req.queryParams("topicId")));
                 } catch (Exception e) {
                     System.out.println("Exception caught in Post/topic.");
+                    throw e;
                 }
             }
             HashMap<String, Object> map = new HashMap<>();
