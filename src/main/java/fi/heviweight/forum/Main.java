@@ -32,7 +32,7 @@ public class Main {
         get("/board", (req, res) -> {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
-            List<Topic> b = td.getTopics(i);
+            List<Topic> b = td.getTopic(i);
             map.put("topics", b);
             map.put("bName", b.get(0).getBoard());
             map.put("id", i);
