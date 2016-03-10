@@ -72,7 +72,7 @@
             </tr>
 
         </table>
-
+        <p th:each="page: ${pages}"><a href="" th:href="@{~/board(boardId=${id},page=${page})}" th:text="${page}"/></p>
 
         <h1>Post new topic</h1>
         <table>
@@ -80,7 +80,7 @@
                 <th>
                     <form method="post">
                         <p>Topic name:</p>
-                        <textarea rows="2" cols="50" name="topicName" />
+                        <textarea rows="1" cols="50" name="topicName" />
                         <input type="hidden" name="boardId" value="" th:value="${id}" />
                         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
                     </form>
