@@ -35,6 +35,14 @@ public class TopicDao {
             stmt.setInt(2, boardId);
             return db.queryAndCollect(stmt, rs -> {
                 System.out.println("Collecting: " + rs.getString("topicName"));
+                int v = 0;
+                try {
+                    v = rs.getInt("Viesteja");
+                } catch (Exception e) {}
+                String s = "-";
+                try {
+                    s = rs.getString("Viimeisin");
+                } catch (Exception e) {}
                 return new Topic(
                         rs.getInt("boardId"),
                         rs.getInt("topicId"),
