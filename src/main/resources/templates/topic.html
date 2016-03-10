@@ -51,6 +51,7 @@
 
             td {
                 border-bottom: 2px solid #aacacc;
+                vertical-align: text-top;
                 color: black;
                 height: 25px;
             }
@@ -74,14 +75,15 @@
             <tr>
                 <th style="text-align: left;">Poster</th>
                 <th></th>
-                <th style="text-align: left;">Message</th>
+                <th style="text-align: left;">Message</th>                
+                <th style="text-align: right;">Timestamp</th>
             </tr>
             <tr th:each="post: ${posts}">
-                <td style="width:100px; max-width: 100px; text-align: left;" th:text="${post.getPoster()}">posterName</td>
+                <td style="width:200px; max-width: 200px; text-align: left;" th:text="${post.getPoster()}">posterName</td>
                 <td style="width:100px; max-width: 100px; text-align: center;"></td>
-                <td style="width:750px; max-width: 750px; text-align: left;" th:text="${post.getContent()}">message</td>
-            </tr>
-
+                <td style="width:500px; max-width: 500px; text-align: left;" th:text="${post.getContent()}">message</td>
+                <td style="width:200px; max-width: 200px; text-align: right;" th:text="${post.getTimestamp()}">timestamp</td>
+            </tr> 
         </table>
 
         <h1>Reply to topic</h1>

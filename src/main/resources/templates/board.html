@@ -26,7 +26,7 @@
                 color: black;
             }
 
-            
+
             a:link {
                 color: firebrick;
                 text-decoration: none;
@@ -46,6 +46,7 @@
 
             td {
                 border-bottom: 2px solid #aacacc;
+                vertical-align: text-top;
                 color: black;
                 height: 25px;
             }
@@ -65,7 +66,7 @@
             </tr>
             <tr th:each="topic: ${topics}">
                 <td style="width:200px; max-width: 200px; text-align: left;"><a href="/topic" th:href="@{~/topic(topicId=${topic.getId()})}" th:text="${topic.getName()}">topicName</a></td>
-                <td style="width:50px; max-width: 50px; text-align: center;" th:text="${topic.getPostCount()}">postCount</td>
+                <td style="width:100px; max-width: 100px; text-align: center;" th:text="${topic.getPostCount()}">postCount</td>
                 <td style="width:500px; max-width: 500px; text-align: center;"></td>
                 <td style="width:200px; max-width: 200px; text-align: right;" th:text="${topic.getTimestamp()}">timestamp</td>
             </tr>

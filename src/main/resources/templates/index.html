@@ -50,6 +50,7 @@
 
             td {
                 border-bottom: 2px solid #aacacc;
+                vertical-align: text-top;
                 color: black;
                 height: 25px;
             }
@@ -65,12 +66,12 @@
             <tr>
                 <th style="text-align: left;">Board Name</th>
                 <th style="text-align: center;">Post Count</th>
-                <th></th>
+                <th style="text-align: center;">Description</th>
                 <th style="text-align: right;">Last Post Timestamp</th>
             </tr>
             <tr th:each="board: ${boards}">
                 <td style="width:200px; max-width: 200px; text-align: left;"><a href="/board" th:href="@{~/board(boardId=${board.getId()})}" th:text="${board.getBoardName()}">BoardName</a></td>
-                <td style="width:50px; max-width: 200px; text-align: center;" th:text="${board.getMessageCount()}">messageCount</td>
+                <td style="width:100px; max-width: 100px; text-align: center;" th:text="${board.getMessageCount()}">messageCount</td>
                 <td style="width:500px; max-width: 500px; text-align: left;" th:text="${board.getDescription()}"></td>
                 <td style="width:200px; max-width: 200px; text-align: right;" th:text="${board.getTimestamp()}">timeStamp</td>
             </tr>
