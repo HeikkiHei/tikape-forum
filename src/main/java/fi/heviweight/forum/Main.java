@@ -23,7 +23,7 @@ public class Main {
         TopicDao td = new TopicDao(db);
         PostDao pd = new PostDao(db);
 
-        get("", (req, res) -> {
+        get("/", (req, res) -> {
             res.redirect("/forum");
             return "whoops";
         });
@@ -42,6 +42,7 @@ public class Main {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
             List<Topic> b = td.getTopic(i);
+            System.out.println("Following topics found: ");
             for (Topic b1 : b) {
                 System.out.println("topic name: " + b1.getName());
             }
