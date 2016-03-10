@@ -44,7 +44,7 @@ public class Main {
             List<Topic> b = td.getTopic(i);
             map.put("pages", getPages(b.size()));
             page = validPage(page, b.size());
-            b = b.subList((page - 1) * 10, page * 10);
+            b = b.subList((page - 1) * PAGING, Math.min(b.size(), page * PAGING));
             map.put("topics", b);
             String n = "";
             if (b.size() > 0) {
@@ -84,7 +84,7 @@ public class Main {
             } catch (Exception e) {}
             page = validPage(page, p.size());
             map.put("pages", getPages(p.size()));
-            p = p.subList((page - 1) * PAGING, page * PAGING);
+            p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
             map.put("posts", p);
             map.put("id", p.get(0).getTopicId());
             map.put("tName", p.get(0).getTopic());
@@ -125,7 +125,7 @@ public class Main {
                 List<Post> p = pd.getPosts(Integer.parseInt(req.queryParams("topicId")));
                 int page = lastpage(p.size());
                 map.put("pages", getPages(p.size()));
-                p = p.subList((page - 1) * PAGING, page * PAGING);
+                p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
                 map.put("posts", p);
                 map.put("id", Integer.parseInt(req.queryParams("topicId")));
                 map.put("tName", "Make an opening post");
@@ -137,7 +137,7 @@ public class Main {
                 List<Post> p = pd.getPosts(i);
                 int page = lastpage(p.size());
                 map.put("pages", getPages(p.size()));
-                p = p.subList((page - 1) * PAGING, page * PAGING);
+                p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
                 map.put("id", p.get(0).getTopicId());
                 map.put("tName", p.get(0).getTopic());
                 map.put("bName", p.get(0).getBoard());
