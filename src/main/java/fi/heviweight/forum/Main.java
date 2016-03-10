@@ -41,7 +41,7 @@ public class Main {
             } catch (Exception e) {}
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
-            List<Topic> b = td.getTopic(i);
+            List<Topic> b = td.getTopics(i);
             System.out.println("Following topics found: ");
             for (Topic b1 : b) {
                 System.out.println("topic name: " + b1.getName());
