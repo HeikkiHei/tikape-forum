@@ -91,8 +91,9 @@ public class Main {
             }
             page = validPage(page, p.size());
             map.put("pages", getPages(p.size()));
+            System.out.println("Cut: " + ((page - 1) * PAGING) + " - " + (page * PAGING));
             p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
-            System.out.println("Post count after pruning: " + p.size());
+            System.out.println("Post count after pruning: " + p.size() + " Page: " + page);
             map.put("posts", p);
             if (p.isEmpty()) {
                 map.put("id", i);
