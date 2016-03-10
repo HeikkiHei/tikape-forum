@@ -74,12 +74,15 @@ public class Main {
             boolean success = true;
             try {
                 req.queryParams("nick").isEmpty();
+                System.out.println("Post/topic nick.isEmpty()");
             } catch (Exception e) {
                 success = false;
+                System.out.println("Post/topic no nick.");
             }
 
             if (success && (!req.queryParams("nick").isEmpty() || !req.queryParams("message").isEmpty())) {
                 try {
+                    System.out.println("Post/topic tryPost");
                     String nick = req.queryParams("nick");
                     if (nick.length() > 15) {
                         nick = nick.substring(0, 15);
@@ -90,6 +93,7 @@ public class Main {
                     }
                     new PostDao(db).addPost(nick, message, Integer.parseInt(req.queryParams("topicId")));
                 } catch (Exception e) {
+                    System.out.println("Exception caught in Post/topic.");
                 }
             }
             HashMap<String, Object> map = new HashMap<>();
