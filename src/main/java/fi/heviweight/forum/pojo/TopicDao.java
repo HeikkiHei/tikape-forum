@@ -47,27 +47,44 @@ public class TopicDao {
     public List<Topic> getTopic(int topicId) throws SQLException {
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT board.id AS boardId, "
-                    + "board.name AS boardName, topic.id As topicId, "
-                    + "topic.name AS topicName, COUNT(Post.id) AS Viesteja, "
-                    + "post.timestamp AS Viimeisin "
-                    + "FROM board, topic, post "
-                    + "WHERE board.id = topic.board_id "
-                    + "AND topic.id = ? "
-                    + "AND post.topic_id = ? "
-                    + "GROUP BY topic.name "
-                    + "ORDER BY post.timestamp DESC LIMIT 10;");
+                    "SELECT b.id AS boardId, "
+                    + "	b.NAME AS boardName, "
+                    + "	b.tId AS topicId, "
+                    + "	b.tName AS topicName, "
+                    + "	p.count AS Viesteja, "
+                    + "	p.ts AS Viimeisin "
+                    + "FROM ( "
+                    + "	SELECT board.id AS id, "
+                    + "		board.NAME AS NAME, "
+                    + "		topic.id AS tId, "
+                    + "		topic.NAME AS tName "
+                    + "	FROM board, "
+                    + "		topic "
+                    + "	WHERE board.id = topic.board_id "
+                    + "		AND topic.id = ? "
+                    + "	) b "
+                    + "LEFT JOIN ( "
+                    + "	SELECT post.topic_id AS id, "
+                    + "		COUNT(*) count, "
+                    + "		MAX(post.TIMESTAMP) ts "
+                    + "	FROM post "
+                    + "	WHERE post.topic_id = ? "
+                    + "	GROUP BY post.topic_id "
+                    + "	) p "
+                    + "	ON b.tId = p.id;");
             stmt.setInt(1, topicId);
             stmt.setInt(2, topicId);
             return db.queryAndCollect(stmt, rs -> {
                 int p = 0;
                 try {
                     p = rs.getInt("Viesteja");
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
                 String s = "-";
                 try {
                     s = rs.getString("Viimeisin");
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
                 return new Topic(
                         rs.getInt("boardId"),
                         rs.getInt("topicId"),
