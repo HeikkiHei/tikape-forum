@@ -90,10 +90,15 @@ public class Main {
             map.put("pages", getPages(p.size()));
             p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
             map.put("posts", p);
-            map.put("id", p.get(0).getTopicId());
-            map.put("tName", p.get(0).getTopic());
-            map.put("bName", p.get(0).getBoard());
-            map.put("bId", p.get(0).getBoardId());
+            if (p.isEmpty()) {
+                map.put("id", i);
+                map.put("tName", "Make an opening post");
+            } else {
+                map.put("id", p.get(0).getTopicId());
+                map.put("tName", p.get(0).getTopic());
+                map.put("bName", p.get(0).getBoard());
+                map.put("bId", p.get(0).getBoardId());
+            }
             return new ModelAndView(map, "topic");
         }, new ThymeleafTemplateEngine());
 
