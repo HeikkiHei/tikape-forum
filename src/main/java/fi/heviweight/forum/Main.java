@@ -42,6 +42,9 @@ public class Main {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
             List<Topic> b = td.getTopic(i);
+            for (Topic b1 : b) {
+                System.out.println("topic name: " + b1.getName());
+            }
             map.put("pages", getPages(b.size()));
             page = validPage(page, b.size());
             b = b.subList((page - 1) * PAGING, Math.min(b.size(), page * PAGING));
