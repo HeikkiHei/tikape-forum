@@ -30,7 +30,8 @@ public class TopicDao {
                     + "WHERE post.topic_id = topic.id "
                     + "AND topic.board_id = ? "
                     + "GROUP BY post.topic_id) pos "
-                    + "ON pos.tId = top.tId;");
+                    + "ON pos.tId = top.tId "
+                    + "ORDER BY pos.Ts DESC;");
             stmt.setInt(1, boardId);
             stmt.setInt(2, boardId);
             return db.queryAndCollect(stmt, rs -> {
