@@ -86,11 +86,13 @@ public class Main {
             int page = lastpage(p.size());
             try {
                 page = Integer.parseInt(req.queryParams("page"));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                System.out.println("No page in query");
+            }
             page = validPage(page, p.size());
             map.put("pages", getPages(p.size()));
             p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
-            System.out.println("Post count after pruning" + p.size());
+            System.out.println("Post count after pruning: " + p.size());
             map.put("posts", p);
             if (p.isEmpty()) {
                 map.put("id", i);
