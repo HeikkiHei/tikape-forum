@@ -148,7 +148,7 @@ public class Main {
     }
 
     private static int validPage(int page, int b) {
-        if (page <= (b - 1 + PAGING) / PAGING) return page;
+        if (page <= (b - 1 + PAGING) / PAGING) return Math.max(page, 1);
         return 1;
     }
 
@@ -162,6 +162,6 @@ public class Main {
     }
 
     private static int lastpage(int size) {
-        return (size - 1 + PAGING) / PAGING;
+        return Math.max(1, (size - 1 + PAGING) / PAGING);
     }
 }
