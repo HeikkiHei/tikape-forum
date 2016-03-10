@@ -24,10 +24,11 @@ public class TopicDao {
                     + "topic.id AS tId, topic.name AS N "
                     + "FROM topic, board "
                     + "WHERE topic.board_id = board.id "
-                    + "AND topic.id = ?) top LEFT JOIN ("
+                    + "AND topic.board_id = ?) top LEFT JOIN ("
                     + "SELECT post.topic_id AS tId, COUNT(*) AS c, "
-                    + "MAX(timestamp) AS Ts FROM post "
-                    + "WHERE post.topic_id = ? "
+                    + "MAX(timestamp) AS Ts FROM post, topic "
+                    + "WHERE post.topic_id = topic.id "
+                    + "AND topic.board_id = ? "
                     + "GROUP BY post.topic_id) pos "
                     + "ON pos.tId = top.tId;");
             stmt.setInt(1, boardId);
