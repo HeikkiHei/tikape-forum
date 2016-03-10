@@ -48,8 +48,8 @@ public class TopicDao {
                         rs.getInt("topicId"),
                         rs.getString("topicName"),
                         rs.getString("boardName"),
-                        rs.getInt("Viesteja"),
-                        rs.getString("Viimeisin"));
+                        v,
+                        s);
             });
         }
     }
