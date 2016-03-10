@@ -8,7 +8,7 @@ import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
-
+    private static final int PAGING = 20;
     public static void main(String[] args) throws Exception {
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
@@ -23,6 +23,11 @@ public class Main {
         TopicDao td = new TopicDao(db);
         PostDao pd = new PostDao(db);
 
+        get("", (req, res) -> {
+            res.redirect("/forum");
+            return "whoops";
+        });
+        
         get("/forum", (req, res) -> {
             HashMap<String, List<Forum>> map = new HashMap<>();
             map.put("boards", fd.findAll());
@@ -30,9 +35,16 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         get("/board", (req, res) -> {
+            int page = 1;
+            try {
+                page = Integer.parseInt(req.queryParams("page"));
+            } catch (Exception e) {}
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
             List<Topic> b = td.getTopic(i);
+            map.put("pages", getPages(b.size()));
+            page = validPage(page, b.size());
+            b = b.subList((page - 1) * 10, page * 10);
             map.put("topics", b);
             String n = "";
             if (b.size() > 0) {
@@ -66,6 +78,13 @@ public class Main {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("topicId"));
             List<Post> p = pd.getPosts(i);
+            int page = lastpage(p.size());
+            try {
+                page = Integer.parseInt(req.queryParams("page"));
+            } catch (Exception e) {}
+            page = validPage(page, p.size());
+            map.put("pages", getPages(p.size()));
+            p = p.subList((page - 1) * PAGING, page * PAGING);
             map.put("posts", p);
             map.put("id", p.get(0).getTopicId());
             map.put("tName", p.get(0).getTopic());
@@ -104,6 +123,9 @@ public class Main {
             HashMap<String, Object> map = new HashMap<>();
             if (!success) {
                 List<Post> p = pd.getPosts(Integer.parseInt(req.queryParams("topicId")));
+                int page = lastpage(p.size());
+                map.put("pages", getPages(p.size()));
+                p = p.subList((page - 1) * PAGING, page * PAGING);
                 map.put("posts", p);
                 map.put("id", Integer.parseInt(req.queryParams("topicId")));
                 map.put("tName", "Make an opening post");
@@ -113,6 +135,9 @@ public class Main {
                 int i = Integer.parseInt(req.queryParams("topicId"));
                 map.put("posts", pd.getPosts(i));
                 List<Post> p = pd.getPosts(i);
+                int page = lastpage(p.size());
+                map.put("pages", getPages(p.size()));
+                p = p.subList((page - 1) * PAGING, page * PAGING);
                 map.put("id", p.get(0).getTopicId());
                 map.put("tName", p.get(0).getTopic());
                 map.put("bName", p.get(0).getBoard());
@@ -120,5 +145,23 @@ public class Main {
             }
             return new ModelAndView(map, "topic");
         }, new ThymeleafTemplateEngine());
+    }
+
+    private static int validPage(int page, int b) {
+        if (page <= (b - 1 + PAGING) / PAGING) return page;
+        return 1;
+    }
+
+    private static List<Integer> getPages(int size) {
+        List<Integer> l = new ArrayList<>();
+        if (size < PAGING) return l;
+        for (int i = 0; i*PAGING <= size; i++) {
+            l.add(i + 1);
+        }
+        return l;
+    }
+
+    private static int lastpage(int size) {
+        return (size - 1 + PAGING) / PAGING;
     }
 }
