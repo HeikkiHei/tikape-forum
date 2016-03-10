@@ -18,7 +18,7 @@ public class UserDao {
         try (Connection con = db.getConnection()) {
 
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT * FROM kayttaja WHERE kayttaja.name == ?;");
+                    "SELECT * FROM kayttaja WHERE kayttaja.name = ?;");
             stmt.setString(1, name);
             List<User> u = db.queryAndCollect(stmt, rs -> {
                 return new User(
