@@ -73,16 +73,18 @@ public class Database {
         
         lista.add("CREATE TABLE kayttaja (id SERIAL PRIMARY KEY, name varchar(15));");
 
-        lista.add("CREATE TABLE board (id SERIAL PRIMARY KEY, name VARCHAR(25) NOT NULL, description VARCHAR(100) NOT NULL);");
+        lista.add("CREATE TABLE board (id SERIAL PRIMARY KEY, "
+                + "name VARCHAR(25) NOT NULL, "
+                + "description VARCHAR(100) NOT NULL);");
         
         lista.add("CREATE TABLE topic (id SERIAL PRIMARY KEY, "
                 + "name VARCHAR(25) NOT NULL, "
-                + "board_id INT REFERENCES board(id));");
+                + "board_id INT REFERENCES board(id) NOT NULL);");
 
-        lista.add("CREATE TABLE post (id SERIAL PRIMARY KEY, "
-                + "topic_id INT REFERENCES topic(id), "
-                + "user_id INT REFERENCES kayttaja(id), post VARCHAR(5000) NOT NULL, "
-                + "timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+            lista.add("CREATE TABLE post (id SERIAL PRIMARY KEY, "
+                    + "topic_id INT REFERENCES topic(id) NOT NULL, "
+                    + "user_id INT REFERENCES kayttaja(id), post VARCHAR(5000) NOT NULL, "
+                    + "timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
 
         return lista;
     }

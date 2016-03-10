@@ -72,7 +72,15 @@
             </tr>
 
         </table>
-        <p th:each="page: ${pages}"><a href="" th:href="@{~/board(boardId=${id},page=${page})}" th:text="${page}"/></p>
+
+        <table>
+            <tr>
+
+                <td style="border-bottom: 0px;" th:each="page: ${pages}"><a href="" th:href="@{~/board(boardId=${id},page=${page})}" th:text="${page}"/></td>
+
+            </tr>
+        </table>
+
 
         <h1>Post new topic</h1>
         <table>
