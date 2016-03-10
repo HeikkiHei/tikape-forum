@@ -60,13 +60,21 @@ public class TopicDao {
             stmt.setInt(1, topicId);
             stmt.setInt(2, topicId);
             return db.queryAndCollect(stmt, rs -> {
+                int p = 0;
+                try {
+                    p = rs.getInt("Viesteja");
+                } catch (Exception e) {}
+                String s = "-";
+                try {
+                    s = rs.getString("Viimeisin");
+                } catch (Exception e) {}
                 return new Topic(
                         rs.getInt("boardId"),
                         rs.getInt("topicId"),
                         rs.getString("topicName"),
                         rs.getString("boardName"),
-                        rs.getInt("Viesteja"),
-                        rs.getString("Viimeisin"));
+                        p,
+                        s);
             });
         }
     }
