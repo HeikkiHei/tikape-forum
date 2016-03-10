@@ -85,7 +85,7 @@
                 <td style="width:200px; max-width: 200px; text-align: right;" th:text="${post.getTimestamp()}">timestamp</td>
             </tr> 
         </table>
-
+        <p th:each="page: ${pages}"><a href="" th:href="@{~/topic(topicId=${id},page=${page})}" th:text="${page}"/></p>
         <h1>Reply to topic</h1>
         <table>
             <tr>
