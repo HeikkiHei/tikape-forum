@@ -33,12 +33,12 @@ public class Main {
             HashMap<String, Object> map = new HashMap<>();
             int i = Integer.parseInt(req.queryParams("boardId"));
             List<Topic> b = td.getTopic(i);
-            System.out.println("Get/board id=" + i + ". count=" + b.size());
-            for (Topic t : b) {
-                System.out.println(t);
-            }
             map.put("topics", b);
-            map.put("bName", b.get(0).getBoard());
+            String n = "";
+            if (b.size() > 0) {
+                n = b.get(0).getBoard();
+            }
+            map.put("bName", n);
             map.put("id", i);
             return new ModelAndView(map, "board");
         }, new ThymeleafTemplateEngine());
