@@ -42,12 +42,14 @@ public class PostDao {
 
     public void addPost(String nick, String message, int topicId) throws SQLException {
         User u = new UserDao(db).getUser(nick);
-        PreparedStatement stmt = db.getConnection().prepareStatement(
-                "INSERT INTO post (topic_id, user_id, post) "
-                + "VALUES (?, ?, ?);");
-        stmt.setInt(1, topicId);
-        stmt.setInt(2, u.getId());
-        stmt.setString(3, message);
-        db.execute(stmt);
+        try (Connection con = db.getConnection()) {
+            PreparedStatement stmt = con.prepareStatement(
+                    "INSERT INTO post (topic_id, user_id, post) "
+                    + "VALUES (?, ?, ?);");
+            stmt.setInt(1, topicId);
+            stmt.setInt(2, u.getId());
+            stmt.setString(3, message);
+            db.execute(stmt);
+        }
     }
 }
