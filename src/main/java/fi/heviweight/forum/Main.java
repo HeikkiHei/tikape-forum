@@ -64,6 +64,7 @@ public class Main {
             try {
                 int bId = Integer.parseInt(req.queryParams("boardId"));
                 String topic = req.queryParams("topicName");
+                if (topic.isEmpty()) return "Invalid input. Topic must not be empty";
                 if (topic.length() > 25) {
                     topic = topic.substring(0, 25);
                 }
