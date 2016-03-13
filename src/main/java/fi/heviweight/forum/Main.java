@@ -118,7 +118,7 @@ public class Main {
                 System.out.println("Post/topic no nick.");
             }
 
-            if (success && (!req.queryParams("nick").isEmpty() || !req.queryParams("message").isEmpty())) {
+            if (success && !(req.queryParams("nick").isEmpty() || req.queryParams("message").isEmpty())) {
                 try {
                     System.out.println("Post/topic tryPost");
                     String nick = req.queryParams("nick");
@@ -148,11 +148,11 @@ public class Main {
 //                map.put("bId", p.get(0).getBoardId());
             } else {
                 int i = Integer.parseInt(req.queryParams("topicId"));
-                map.put("posts", pd.getPosts(i));
                 List<Post> p = pd.getPosts(i);
                 int page = lastpage(p.size());
                 map.put("pages", getPages(p.size()));
                 p = p.subList((page - 1) * PAGING, Math.min(p.size(), page * PAGING));
+                map.put("posts", p);
                 map.put("id", p.get(0).getTopicId());
                 map.put("tName", p.get(0).getTopic());
                 map.put("bName", p.get(0).getBoard());
