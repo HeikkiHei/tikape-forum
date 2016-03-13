@@ -170,8 +170,8 @@ public class Main {
     private static List<Integer> getPages(int size) {
         System.out.println("Size: " + size);
         List<Integer> l = new ArrayList<>();
-        if (size < PAGING) return l;
-        for (int i = 0; i*PAGING <= size; i++) {
+        if (size <= PAGING) return l;
+        for (int i = 0; i*PAGING < size; i++) {
             l.add(i + 1);
         }
         System.out.println("Page count set to: " + l.size());
